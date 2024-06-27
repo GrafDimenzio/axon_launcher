@@ -9,12 +9,19 @@ class LauncherState extends ChangeNotifier {
     _init();
   }
   
-  bool menuButtonActive = true;
+  bool allowSwitch = true;
+  int currentPage = 0;
+
   Directory? axonDirectory;
   Directory? launcherDirectory;
 
+  void setPage(int page) {
+    currentPage = page;
+    notifyListeners();
+  }
+
   void setButton(bool active) {
-    menuButtonActive = active;
+    allowSwitch = active;
     notifyListeners();
   }
 
@@ -27,7 +34,5 @@ class LauncherState extends ChangeNotifier {
     if(await launcherDirectory!.exists() == false) {
       await launcherDirectory!.create(recursive: true);
     }
-
-    print(axonPath);
   }
 }

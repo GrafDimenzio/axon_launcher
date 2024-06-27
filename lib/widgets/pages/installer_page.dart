@@ -10,10 +10,7 @@ import 'package:provider/provider.dart';
 class InstallerPage extends StatefulWidget {
   const InstallerPage({
     super.key,
-    required this.theme,
   });
-
-  final ThemeData theme;
 
   @override
   State<InstallerPage> createState() => _InstallerPageState();
@@ -98,6 +95,7 @@ class _InstallerPageState extends State<InstallerPage> {
   @override
   Widget build(BuildContext context) {
     var state = context.watch<LauncherState>();
+    final theme = Theme.of(context);
     //final sytle = widget.theme.textTheme.titleMedium!.copyWith(color: widget.theme.colorScheme.onSurface);
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -113,7 +111,10 @@ class _InstallerPageState extends State<InstallerPage> {
                 SizedBox(
                   width: 800,
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                    padding: const EdgeInsets.only(
+                      bottom: 8.0,
+                      top: 3.0,
+                      ),
                     child: Text('Vanilla SCPSL.exe Path'),
                   ),
                 ),
@@ -142,7 +143,10 @@ class _InstallerPageState extends State<InstallerPage> {
                 SizedBox(
                   width: 800,
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                    padding: const EdgeInsets.only(
+                      bottom: 8.0,
+                      top: 3.0,
+                      ),
                     child: Text('Axon Directory'),
                   ),
                 ),
