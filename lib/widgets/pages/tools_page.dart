@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ToolsPage extends StatelessWidget {
-  const ToolsPage({ 
+  const ToolsPage({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-           Text('Tools')
-        ],
-      );
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [Text('Tools')],
+    );
   }
 }

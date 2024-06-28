@@ -21,11 +21,7 @@ class CustomTitleBar extends StatelessWidget {
         child: SizedBox(
           height: titleBarSize,
           child: Row(
-            children: [
-              Title(),
-              MinimizeButton(),
-              CloseButton()
-            ],
+            children: [Title(), MinimizeButton(), CloseButton()],
           ),
         ),
       ),
@@ -67,7 +63,7 @@ class _CloseButtonState extends State<CloseButton> {
           color: _isHovered ? Colors.red : Colors.transparent,
           child: Center(
             child: Icon(Icons.close),
-            ),
+          ),
         ),
       ),
     );
@@ -104,7 +100,9 @@ class _MinimizeButtonState extends State<MinimizeButton> {
           windowManager.minimize();
         },
         child: Container(
-          color: _isHovered ? theme.colorScheme.surfaceContainer : Colors.transparent,
+          color: _isHovered
+              ? theme.colorScheme.surfaceContainer
+              : Colors.transparent,
           width: buttonSizes,
           child: Center(
             child: Icon(Icons.minimize),
@@ -126,7 +124,7 @@ class Title extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(
           left: 10.0,
-          ),
+        ),
         child: Text(''),
       ),
     );

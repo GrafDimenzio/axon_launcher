@@ -19,7 +19,6 @@ ThemeData theme = ThemeData(
       subtitleTextStyle: primaryTextStyle,
       enableFeedback: true,
     ),
-    
     textTheme: TextTheme(labelMedium: surfaceTextStyle));
 
 TextStyle surfaceTextStyle = TextStyle(
@@ -36,21 +35,15 @@ TextStyle secondaryTextStyle = TextStyle(
 
 ColorScheme colorScheme = ColorScheme(
   brightness: Brightness.dark,
-
   primary: Color(0xff2e3440),
   onPrimary: Color(0xffffffff),
-
   secondary: Color(0xff3b4252),
   onSecondary: Color(0xffffffff),
-
   error: Color.fromARGB(255, 252, 56, 56),
   onError: Color(0xffddf2f3),
-
   tertiary: Color(0xff434c5e),
   onTertiary: Color(0xffffffff),
-
   surface: Color(0xff242933),
   onSurface: Color(0xffffffff),
-
   surfaceContainer: Color(0xff4c566a),
 );

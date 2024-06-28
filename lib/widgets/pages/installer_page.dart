@@ -45,7 +45,9 @@ class _InstallerPageState extends State<InstallerPage> {
   }
 
   void startClientInstallation(LauncherState state) {
-    if(scpExe == null || scpExe?.endsWith('SCPSL.exe') == false && File(scpExe!).existsSync() == false) {
+    if (scpExe == null ||
+        scpExe?.endsWith('SCPSL.exe') == false &&
+            File(scpExe!).existsSync() == false) {
       setState(() {
         lastLog = 'You need to select a real SCPSL.exe';
       });
@@ -60,11 +62,11 @@ class _InstallerPageState extends State<InstallerPage> {
             'SCP Secret Laboratory Axon Client');
       });
     }
-    
+
     setState(() {
       lastLog = 'Started Installation';
       installtionInProgress = true;
-      state.setButton(false);
+      state.setAllowPageSwitch(false);
     });
 
     patchClient(
@@ -80,7 +82,12 @@ class _InstallerPageState extends State<InstallerPage> {
       (value) {
         setState(() {
           installtionInProgress = false;
-          state.setButton(true);
+          state.setAllowPageSwitch(true);
+
+          if(value == false) return;
+          if (state.settings == null || axon == null) return;
+          state.settings!.axonClientPath = axon!;
+          state.updateSettings();
         });
       },
     );
@@ -114,7 +121,7 @@ class _InstallerPageState extends State<InstallerPage> {
                     padding: const EdgeInsets.only(
                       bottom: 8.0,
                       top: 3.0,
-                      ),
+                    ),
                     child: Text('Vanilla SCPSL.exe Path'),
                   ),
                 ),
@@ -146,7 +153,7 @@ class _InstallerPageState extends State<InstallerPage> {
                     padding: const EdgeInsets.only(
                       bottom: 8.0,
                       top: 3.0,
-                      ),
+                    ),
                     child: Text('Axon Directory'),
                   ),
                 ),
@@ -154,7 +161,8 @@ class _InstallerPageState extends State<InstallerPage> {
                   style: surfaceTextStyle,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Select in which Directory Axon should be installed or leave empty for default',
+                      hintText:
+                          'Select in which Directory Axon should be installed or leave empty for default',
                       constraints: BoxConstraints(maxWidth: 800)),
                   initialValue: axon,
                   onChanged: (value) {
@@ -171,8 +179,9 @@ class _InstallerPageState extends State<InstallerPage> {
           width: 800,
           child: Padding(
             padding: const EdgeInsets.only(top: 40.0),
-            child:
-                Center(child: Text('Please select which Version of SCPSL you are patching')),
+            child: Center(
+                child: Text(
+                    'Please select which Version of SCPSL you are patching')),
           ),
         ),
         SizedBox(
@@ -204,20 +213,15 @@ class _InstallerPageState extends State<InstallerPage> {
         if (selectedVersion != 'No Game Version found' &&
             installtionInProgress == false)
           Padding(
-            padding: const EdgeInsets.only(
-              top: 10,
-              bottom: 10
-              ),
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: ElevatedButton(
-                  onPressed: () {
-                    startClientInstallation(state);
-                  },
-                  child: Text(
-                    'Start',
-                    style: TextStyle(
-                      fontSize: 25
-                    ),
-                    )),
+                onPressed: () {
+                  startClientInstallation(state);
+                },
+                child: Text(
+                  'Start',
+                  style: TextStyle(fontSize: 25),
+                )),
           ),
 
         if (installtionInProgress)

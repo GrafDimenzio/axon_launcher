@@ -10,7 +10,7 @@ void main() async {
   await windowManager.ensureInitialized();
   var options = WindowOptions(
     center: true,
-    size: Size(1200,700),
+    size: Size(1200, 700),
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
     title: 'Axon Launcher',
@@ -21,7 +21,7 @@ void main() async {
     await windowManager.show();
     await windowManager.focus();
   });
-  
+
   windowManager.setResizable(false);
 
   runApp(const MyApp());

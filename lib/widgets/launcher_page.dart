@@ -20,17 +20,16 @@ class LauncherPage extends StatelessWidget {
     print('MAIN LAUNCHER BUILD!');
     final state = Provider.of<LauncherState>(context, listen: false);
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Scaffold(
-          key: LauncherPage.scaffoldKey,
-          body: Column(
-            children: [
-              CustomTitleBar(),
-              SizedBox(
-                width: constraints.maxWidth,
-                height: constraints.maxHeight - titleBarSize,
-                child: Stack(
+    return LayoutBuilder(builder: (context, constraints) {
+      return Scaffold(
+        key: LauncherPage.scaffoldKey,
+        body: Column(
+          children: [
+            CustomTitleBar(),
+            SizedBox(
+              width: constraints.maxWidth,
+              height: constraints.maxHeight - titleBarSize,
+              child: Stack(
                 fit: StackFit.expand,
                 children: [
                   Row(
@@ -43,13 +42,12 @@ class LauncherPage extends StatelessWidget {
                   ),
                   VersionWidget()
                 ],
-                        ),
-              )
-            ],
-          ),
-        );
-      }
-    );
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -62,7 +60,7 @@ class MainBody extends StatelessWidget {
 
     Widget page;
 
-    switch(state.currentPage) {
+    switch (state.currentPage) {
       case 0:
         page = ServerlistPage();
 
@@ -81,7 +79,7 @@ class MainBody extends StatelessWidget {
       default:
         throw UnimplementedError('No Page was found for the selected Page');
     }
-    
+
     return Expanded(child: page);
   }
 }

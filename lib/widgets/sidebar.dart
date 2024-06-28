@@ -12,7 +12,7 @@ class Sidebar extends StatelessWidget {
   final LauncherState state;
 
   void selectPage(int page) {
-    if(state.allowSwitch) {
+    if (state.allowSwitch) {
       state.setPage(page);
     }
   }
@@ -22,7 +22,8 @@ class Sidebar extends StatelessWidget {
     final theme = Theme.of(context);
     final headerColor = theme.colorScheme.secondary;
     final onHeaderColor = theme.colorScheme.onSecondary;
-    final headerStyle = theme.textTheme.titleLarge!.copyWith(color: onHeaderColor);
+    final headerStyle =
+        theme.textTheme.titleLarge!.copyWith(color: onHeaderColor);
     final listColor = theme.colorScheme.primary;
 
     print('SIDEBAR BUILD');
@@ -135,21 +136,20 @@ class Sidebar extends StatelessWidget {
     });
   }
 
-  void selectMenu(int index){
+  void selectMenu(int index) {
     selectPage(index);
     LauncherPage.scaffoldKey.currentState?.closeDrawer();
   }
 }
 
 class CustomListTile extends StatelessWidget {
-  const CustomListTile({
-    super.key,
-    required this.color,
-    this.leading,
-    this.title,
-    this.subtitle,
-    this.onTap
-  });
+  const CustomListTile(
+      {super.key,
+      required this.color,
+      this.leading,
+      this.title,
+      this.subtitle,
+      this.onTap});
 
   final Color color;
 
