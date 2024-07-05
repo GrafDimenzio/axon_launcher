@@ -15,7 +15,7 @@ class VersionWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Axon Launcher\nVersion 1.0.0',
+            'Axon Launcher\nVersion 0.1.0 Alpha',
             textAlign: TextAlign.end,
           )
         ],

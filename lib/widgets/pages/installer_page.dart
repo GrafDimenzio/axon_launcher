@@ -109,68 +109,64 @@ class _InstallerPageState extends State<InstallerPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         //Vanilla SCPSL.exe select
-        Card(
-          child: SizedBox(
-            width: 820,
-            height: 90,
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 800,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 8.0,
-                      top: 3.0,
-                    ),
-                    child: Text('Vanilla SCPSL.exe Path'),
+        SizedBox(
+          width: 820,
+          height: 90,
+          child: Column(
+            children: [
+              SizedBox(
+                width: 800,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 8.0,
+                    top: 3.0,
                   ),
+                  child: Text('Vanilla SCPSL.exe Path'),
                 ),
-                TextFormField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Please select a vanilla version of SCPSL.exe',
-                      constraints: BoxConstraints(maxWidth: 800)),
-                  initialValue: scpExe,
-                  onChanged: (value) {
-                    scpExe = value;
-                  },
-                ),
-              ],
-            ),
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Please select a vanilla version of SCPSL.exe',
+                    constraints: BoxConstraints(maxWidth: 800)),
+                initialValue: scpExe,
+                onChanged: (value) {
+                  scpExe = value;
+                },
+              ),
+            ],
           ),
         ),
 
         //Axon Directory select
-        Card(
-          child: SizedBox(
-            width: 820,
-            height: 90,
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 800,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 8.0,
-                      top: 3.0,
-                    ),
-                    child: Text('Axon Directory'),
+        SizedBox(
+          width: 820,
+          height: 90,
+          child: Column(
+            children: [
+              SizedBox(
+                width: 800,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 8.0,
+                    top: 3.0,
                   ),
+                  child: Text('Axon Directory'),
                 ),
-                TextFormField(
-                  style: surfaceTextStyle,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText:
-                          'Select in which Directory Axon should be installed or leave empty for default',
-                      constraints: BoxConstraints(maxWidth: 800)),
-                  initialValue: axon,
-                  onChanged: (value) {
-                    axon = value;
-                  },
-                ),
-              ],
-            ),
+              ),
+              TextFormField(
+                style: surfaceTextStyle,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText:
+                        'Select in which Directory Axon should be installed or leave empty for default',
+                    constraints: BoxConstraints(maxWidth: 800)),
+                initialValue: axon,
+                onChanged: (value) {
+                  axon = value;
+                },
+              ),
+            ],
           ),
         ),
 

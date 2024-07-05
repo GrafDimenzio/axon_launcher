@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 
 ThemeData theme = ThemeData(
-    useMaterial3: true,
-    colorScheme: colorScheme,
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
-        textStyle: primaryTextStyle,
-      ),
+  useMaterial3: true,
+  colorScheme: colorScheme,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: colorScheme.primary,
+      foregroundColor: colorScheme.onPrimary,
+      textStyle: primaryTextStyle,
     ),
-    cardTheme: CardTheme(
-      color: colorScheme.tertiary,
-    ),
-    listTileTheme: ListTileThemeData(
-      iconColor: colorScheme.onPrimary,
-      titleTextStyle: primaryTextStyle,
-      subtitleTextStyle: primaryTextStyle,
-      enableFeedback: true,
-    ),
-    textTheme: TextTheme(labelMedium: surfaceTextStyle));
+  ),
+  cardTheme: CardTheme(
+    color: colorScheme.tertiary,
+  ),
+  listTileTheme: ListTileThemeData(
+    iconColor: colorScheme.onPrimary,
+    titleTextStyle: primaryTextStyle,
+    subtitleTextStyle: primaryTextStyle,
+    enableFeedback: true,
+  ),
+  textTheme: TextTheme(labelMedium: surfaceTextStyle),
+  textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(foregroundColor: colorScheme.onSurface)
+  ),
+);
 
 TextStyle surfaceTextStyle = TextStyle(
   color: colorScheme.onSurface,

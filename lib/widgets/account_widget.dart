@@ -1,14 +1,28 @@
+import 'package:axon_launcher/api/account_api.dart';
+import 'package:axon_launcher/app_state.dart';
+import 'package:axon_launcher/models/account.dart';
 import 'package:axon_launcher/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Account extends StatelessWidget {
-  const Account({super.key});
+class AccountWidget extends StatelessWidget {
+  const AccountWidget({
+    super.key,
+    this.isSelected = false,
+    required this.account
+  });
+
+  final bool isSelected;
+  final Account account;
 
   @override
   Widget build(BuildContext context) {
-    const userId = 'Brq2boCf89mNfV9463Cwb7U7pMvivfr3DcA6QFQRXf9u@axon';
+    final userId = account.userId;
+    final userName = account.userName;
     final theme = Theme.of(context);
+    final textEditingController = TextEditingController();
+    textEditingController.text = userName;
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
@@ -17,7 +31,27 @@ class Account extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.check),
+              IconButton(
+                onPressed: () async {
+                  if(isSelected) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('This account is already selected')));
+                    return;
+                  }
+                    final state = LauncherState.singleton;
+                    if(state?.accountPath == null) return;
+                    //Move the already existing user.json into the account directory if one exists
+                    if(state?.currentAccount != null) {
+                      final newPath = await getNewAccountPath(state!.currentAccount!.userName);
+                      if(newPath == null) return;
+                      await state.currentAccount!.file.rename(newPath);
+                    }
+                    //Move the account to the root of the Axon Directory for the client to be used
+                    await account.file.rename(state!.accountPath!.path);
+                    state.readAccounts();
+                },
+                icon: Icon(Icons.check)
+              ),
               //User Icon with UserId copy function
               Tooltip(
                   waitDuration: Duration(milliseconds: 500),
@@ -25,9 +59,11 @@ class Account extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(Icons.person),
                     onPressed: () {
-                      Clipboard.setData(ClipboardData(text: userId));
+                      if(userId != 'pending') {
+                        Clipboard.setData(ClipboardData(text: userId));
+                      }
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('Copied userID $userId to clipboard')));
+                          content: Text(userId == 'pending' ? 'The UserId of this account isn\'t generated yet.\nPlease start the client once with this account to generate a userId' : 'Copied userID $userId to clipboard')));
                     },
                   )),
               //Username
@@ -42,6 +78,7 @@ class Account extends StatelessWidget {
                   height: 30,
                   width: 200,
                   child: TextFormField(
+                    controller: textEditingController,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     style: TextStyle(
@@ -52,13 +89,15 @@ class Account extends StatelessWidget {
                         border: UnderlineInputBorder(),
                         hintText: 'Username',
                         constraints: BoxConstraints(maxWidth: 800)),
-                    initialValue: 'Dimenzio',
                   ),
                 ),
               ),
               //Save new Username Button
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  account.userName = textEditingController.text;
+                  account.saveToFile();
+                },
                 icon: Icon(Icons.save),
               ),
               //Delete Button
@@ -67,7 +106,8 @@ class Account extends StatelessWidget {
                     var confirmed = await _showDeleteDialog(context);
                     if (confirmed) {
                       print('Delete Account');
-                      //Delete Account
+                      await account.file.delete();
+                      await LauncherState.singleton!.readAccounts();
                     }
                   },
                   icon: Icon(Icons.delete)),

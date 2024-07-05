@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:axon_launcher/api/account_api.dart';
+import 'package:axon_launcher/models/account.dart';
+import 'package:axon_launcher/models/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
@@ -9,6 +12,8 @@ class LauncherState extends ChangeNotifier {
     _init();
   }
 
+  static LauncherState? singleton;
+
   bool allowSwitch = true;
   int currentPage = 0;
 
@@ -17,6 +22,10 @@ class LauncherState extends ChangeNotifier {
   Directory? accountDirectory;
   File? launcherSettings;
   Settings? settings;
+
+  File? accountPath;
+  Account? currentAccount;
+  List<Account> accounts = [];
 
   void setPage(int page) {
     currentPage = page;
@@ -29,6 +38,8 @@ class LauncherState extends ChangeNotifier {
   }
 
   void _init() async {
+    singleton = this;
+
     var appData = await getApplicationSupportDirectory();
     var axonPath = path.join(appData.parent.parent.path, 'Axon');
     axonDirectory = Directory(axonPath);
@@ -51,16 +62,34 @@ class LauncherState extends ChangeNotifier {
         ue: false,
         axonClientPath: '',
         modsPath: modsDir.path,
-      ));
+      ), notify: false);
     }
     else {
-      await readSettings();
+      await readSettings(notify: false);
     }
+
+    accountPath = File(path.join(axonPath,'user.json'));
+    await readAccounts(notify: false);
 
     notifyListeners();
   }
 
-  Future<void> saveSettings(Settings sett) async {
+  Future<void> readAccounts({ bool notify = true }) async {
+    currentAccount = await readAccountFromFile(accountPath!);
+    accounts.clear();
+    for(var fileEntity in accountDirectory!.listSync()) {
+      final file = File(fileEntity.path);
+      final account = await readAccountFromFile(file);
+      if(account == null) continue;
+      accounts.add(account);
+    }
+
+    if(notify) {
+      notifyListeners();
+    }
+  }
+
+  Future<void> saveSettings(Settings sett, { bool notify = true }) async {
     settings = sett;
     var json = jsonEncode(sett);
     if(launcherSettings == null) return;
@@ -70,51 +99,24 @@ class LauncherState extends ChangeNotifier {
     }
 
     await launcherSettings!.writeAsString(json);
-    notifyListeners();
+
+    if(notify) {
+      notifyListeners();
+    }
   }
 
-  Future<void> readSettings() async {
+  Future<void> readSettings({ bool notify = true }) async {
     if(launcherSettings == null) return;
     var fileBytes = await launcherSettings!.readAsBytes();
     var settingsJson = utf8.decode(fileBytes);
     settings = Settings.fromJson(jsonDecode(settingsJson));
-    notifyListeners();
+    if(notify) {
+      notifyListeners();
+    }
   }
 
   Future<void> updateSettings() async {
     if(settings == null) return;
     await saveSettings(settings!);
-  }
-}
-
-class Settings {
-  Settings({
-    required this.devMode,
-    required this.ue,
-    required this.axonClientPath,
-    required this.modsPath
-  });
-
-  bool devMode = false;
-  bool ue = false;
-  String axonClientPath = '';
-  String modsPath = '';
-
-  Map<String, dynamic> toJson() {
-    return {
-      'devMode': devMode,
-      'ue': ue,
-      'axonClientPath': axonClientPath,
-      'modsPath': modsPath
-    };
-  }
-
-  factory Settings.fromJson(Map<String, dynamic> json) {
-    return Settings(
-      devMode: json['devMode'],
-      ue: json['ue'],
-      axonClientPath: json['axonClientPath'],
-      modsPath: json['modsPath']
-    );
   }
 }
