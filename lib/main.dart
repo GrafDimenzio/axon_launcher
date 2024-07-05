@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       create: (context) => LauncherState(),
       child: MaterialApp(
         title: 'Axon Launcher',
-        theme: theme,
+        theme: getTheme(),
         home: const LauncherPage(),
       ),
     );

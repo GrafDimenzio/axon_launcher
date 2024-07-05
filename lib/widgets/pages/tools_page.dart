@@ -9,7 +9,7 @@ class ToolsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [Text('Tools')],
+      children: [Text('Work in Progress')],
     );
   }
 }

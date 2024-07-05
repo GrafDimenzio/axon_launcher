@@ -1,4 +1,3 @@
-import 'package:axon_launcher/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -12,6 +11,7 @@ class CustomTitleBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onPanStart: (details) {
         windowManager.startDragging();
@@ -84,6 +84,7 @@ class _MinimizeButtonState extends State<MinimizeButton> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return MouseRegion(
       onEnter: (_) {
         setState(() {

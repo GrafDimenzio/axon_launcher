@@ -1,16 +1,18 @@
-import 'package:axon_launcher/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
 
 class ServerlistButton extends StatelessWidget {
   const ServerlistButton({
     super.key,
-    required this.title
+    required this.title,
+    required this.onTap,
   });
 
   final String title;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final textStyle = TextStyle(
       fontSize: 30
     );
@@ -19,7 +21,7 @@ class ServerlistButton extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(20.0),
         onTap: () {
-          print('TAP');
+          onTap();
         },
         child: Padding(
           padding: const EdgeInsets.all(5.0),
