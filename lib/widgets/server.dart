@@ -50,7 +50,7 @@ class ServerWidget extends StatelessWidget {
                     children: [
                       IconButton(
                           onPressed: () {
-                            launchClient('${serverData.ip}:${serverData.port}');
+                            launchClient(ip: '${serverData.ip}:${serverData.port}');
                             _showLaunchDialog(context);
                           },
                           icon: Icon(Icons.arrow_right)

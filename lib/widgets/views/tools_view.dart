@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ToolsPage extends StatelessWidget {
-  const ToolsPage({
+class ToolsView extends StatelessWidget {
+  const ToolsView({
     super.key,
   });
 

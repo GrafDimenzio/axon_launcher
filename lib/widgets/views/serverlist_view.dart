@@ -5,16 +5,16 @@ import 'package:axon_launcher/widgets/server.dart';
 import 'package:axon_launcher/widgets/serverlist_button.dart';
 import 'package:flutter/material.dart';
 
-class ServerlistPage extends StatefulWidget {
-  const ServerlistPage({
+class ServerlistView extends StatefulWidget {
+  const ServerlistView({
     super.key,
   });
 
   @override
-  State<ServerlistPage> createState() => _ServerlistPageState();
+  State<ServerlistView> createState() => _ServerlistViewState();
 }
 
-class _ServerlistPageState extends State<ServerlistPage> {
+class _ServerlistViewState extends State<ServerlistView> {
   int state = 0;
 
   List<String> servers = <String>['Official','Third Party'];

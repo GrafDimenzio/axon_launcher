@@ -16,7 +16,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^6.1.2
   url_launcher: ^6.3.0
   window_manager: ^0.3.9
   http: ^1.2.1

@@ -9,7 +9,7 @@ class Account {
     required this.identity,
     required this.file,
   }) {
-    userId = identity == 'pending' ? identity : getUserId(base64Decode(identity));
+    userId = identity == 'pending' ? identity : getUserIdFromFullKey(getIdentity());
   }
 
   File file;
@@ -22,7 +22,7 @@ class Account {
     identity = base64Encode(bytes);
   }
 
-  Uint8List getIdentity() {
+  List<int> getIdentity() {
     return base64Decode(identity);
   }
 

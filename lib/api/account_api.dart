@@ -1,21 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+import 'package:axon_launcher/api/base58.dart';
 import 'package:axon_launcher/api/io.dart';
 import 'package:axon_launcher/models/account.dart';
 import 'package:crypto/crypto.dart' as crypto;
-import 'package:base58check/base58.dart' as base58;
 import 'package:path/path.dart' as path;
 
-String getUserIdFromFullKey(Uint8List identity) {
+String getUserIdFromFullKey(List<int> identity) {
   return getUserId(identity.sublist(32,97));
 }
 
-String getUserId(Uint8List identityPublic) {
+String getUserId(List<int> identityPublic) {
   final hash = crypto.sha256.convert(identityPublic).bytes;
-  final encoder = base58.Base58Encoder('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
-  final base58Hash = encoder.convert(hash);
-  return '$base58Hash@axon';
+  return '${base58Encode(hash)}@axon';
 }
 
 Future<Account?> readAccountFromPath(String path) async {

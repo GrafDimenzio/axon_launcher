@@ -5,9 +5,7 @@ const titleBarSize = 30.0;
 const buttonSizes = 40.0;
 
 class CustomTitleBar extends StatelessWidget {
-  const CustomTitleBar({
-    super.key,
-  });
+  const CustomTitleBar({super.key});
 
   @override
   Widget build(BuildContext context) {

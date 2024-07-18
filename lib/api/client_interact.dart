@@ -1,23 +1,27 @@
 import 'dart:io';
 
-import 'package:axon_launcher/launcher_state.dart';
+import 'package:axon_launcher/states/settings_state.dart';
 import 'package:path/path.dart' as path;
 
-void launchClient(String ip) async {
-  if (LauncherState.singleton?.settings?.axonClientPath == null) return;
+void launchClient({String? ip}) async {
+  if (SettingsState.singleton.settings?.axonClientPath == null) return;
   final exe =
-      path.join(LauncherState.singleton!.settings!.axonClientPath, 'SCPSL.exe');
+      path.join(SettingsState.singleton.settings!.axonClientPath, 'SCPSL.exe');
   print(exe);
-  var arguments = ['-noauth', '-ip=$ip'];
+  var arguments = ['-noauth'];
 
-  if (!LauncherState.singleton!.settings!.devMode) {
+  if(ip != null) {
+    arguments.add('-ip=$ip');
+  }
+
+  if (!SettingsState.singleton.settings!.devMode) {
     arguments.add('--melonloader.hideconsole');
   }
 
   await Process.start(
     exe,
     arguments,
-    workingDirectory: LauncherState.singleton!.settings!.axonClientPath,
+    workingDirectory: SettingsState.singleton.settings!.axonClientPath,
     mode: ProcessStartMode.detached,
   );
 }

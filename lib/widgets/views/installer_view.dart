@@ -1,22 +1,22 @@
 import 'dart:io';
+import 'package:axon_launcher/states/settings_state.dart';
 import 'package:path/path.dart' as path;
 import 'package:axon_launcher/api/client_patcher.dart';
-import 'package:axon_launcher/launcher_state.dart';
+import 'package:axon_launcher/states/launcher_state.dart';
 import 'package:axon_launcher/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
-class InstallerPage extends StatefulWidget {
-  const InstallerPage({
+class InstallerView extends StatefulWidget {
+  const InstallerView({
     super.key,
   });
 
   @override
-  State<InstallerPage> createState() => _InstallerPageState();
+  State<InstallerView> createState() => _InstallerViewState();
 }
 
-class _InstallerPageState extends State<InstallerPage> {
+class _InstallerViewState extends State<InstallerView> {
   String? scpExe;
   String? axon;
 
@@ -85,9 +85,9 @@ class _InstallerPageState extends State<InstallerPage> {
           state.setAllowPageSwitch(true);
 
           if(value == false) return;
-          if (state.settings == null || axon == null) return;
-          state.settings!.axonClientPath = axon!;
-          state.updateSettings();
+          if (axon == null || SettingsState.singleton.settings == null) return;
+          SettingsState.singleton.settings!.axonClientPath = axon!;
+          SettingsState.singleton.updateSettings();
         });
       },
     );
@@ -101,7 +101,7 @@ class _InstallerPageState extends State<InstallerPage> {
 
   @override
   Widget build(BuildContext context) {
-    var state = context.watch<LauncherState>();
+    var state = LauncherState.singleton;
     final theme = Theme.of(context);
     //final sytle = widget.theme.textTheme.titleMedium!.copyWith(color: widget.theme.colorScheme.onSurface);
     return Column(

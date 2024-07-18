@@ -1,11 +1,9 @@
-import 'dart:ui';
-
 import 'package:axon_launcher/api/io.dart';
-import 'package:axon_launcher/launcher_state.dart';
+import 'package:axon_launcher/states/account_state.dart';
+import 'package:axon_launcher/states/settings_state.dart';
 import 'package:axon_launcher/theme/theme_manager.dart';
 import 'package:axon_launcher/widgets/launcher_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
 const String version = '0.1.0-Alpha';
@@ -30,24 +28,19 @@ void main() async {
   windowManager.setResizable(false);
 
   await checkIo();
-  runApp(const MyApp());
+  await AccountState.singleton.readAccounts();
+  await SettingsState.singleton.init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => LauncherState(),
-      child: MaterialApp(
-        title: 'Axon Launcher',
-        theme: getTheme(),
-        home: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10.0,sigmaY: 10.0),
-          child: const LauncherPage()
-        ),
-      ),
+    return MaterialApp(
+      title: 'Axon Launcher',
+      theme: getTheme(),
+      home: const LauncherPage(),
     );
   }
 }

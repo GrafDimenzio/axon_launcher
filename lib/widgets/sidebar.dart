@@ -1,4 +1,4 @@
-import 'package:axon_launcher/launcher_state.dart';
+import 'package:axon_launcher/states/launcher_state.dart';
 import 'package:axon_launcher/main.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -6,14 +6,11 @@ import 'package:url_launcher/url_launcher_string.dart';
 class Sidebar extends StatelessWidget {
   const Sidebar({
     super.key,
-    required this.state,
   });
 
-  final LauncherState state;
-
   void selectPage(int page) {
-    if (state.allowSwitch) {
-      state.setPage(page);
+    if (LauncherState.singleton.allowSwitch) {
+      LauncherState.singleton.setPage(page);
     }
   }
 
