@@ -1,4 +1,4 @@
-import 'package:axon_launcher/app_state.dart';
+import 'package:axon_launcher/launcher_state.dart';
 import 'package:axon_launcher/widgets/custom_title_bar.dart';
 import 'package:axon_launcher/widgets/pages/account_page.dart';
 import 'package:axon_launcher/widgets/pages/installer_page.dart';
@@ -12,8 +12,6 @@ import 'package:provider/provider.dart';
 
 class LauncherPage extends StatelessWidget {
   const LauncherPage({super.key});
-  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     //I don't want this widget to be rebuilded since it would mess with the Sidebar Animations
@@ -22,7 +20,6 @@ class LauncherPage extends StatelessWidget {
 
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
-        key: LauncherPage.scaffoldKey,
         body: Column(
           children: [
             CustomTitleBar(),

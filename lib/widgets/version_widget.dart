@@ -1,3 +1,4 @@
+import 'package:axon_launcher/main.dart';
 import 'package:flutter/material.dart';
 
 class VersionWidget extends StatelessWidget {
@@ -15,7 +16,7 @@ class VersionWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Axon Launcher\nVersion 0.1.0 Alpha',
+            'Axon Launcher\nVersion $version',
             textAlign: TextAlign.end,
           )
         ],

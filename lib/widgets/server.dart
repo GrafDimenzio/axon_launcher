@@ -1,3 +1,4 @@
+import 'package:axon_launcher/api/client_interact.dart';
 import 'package:axon_launcher/models/server_data.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,8 @@ class ServerWidget extends StatelessWidget {
                     children: [
                       IconButton(
                           onPressed: () {
-
+                            launchClient('${serverData.ip}:${serverData.port}');
+                            _showLaunchDialog(context);
                           },
                           icon: Icon(Icons.arrow_right)
                         ),
@@ -66,6 +68,19 @@ class ServerWidget extends StatelessWidget {
               )),
         ),
       ),
+    );
+  }
+
+    Future<void> _showLaunchDialog(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Game launched'),
+          content: Text('Please wait a moment'),
+        );
+      },
     );
   }
 }

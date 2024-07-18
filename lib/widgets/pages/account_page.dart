@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:axon_launcher/api/account_api.dart';
-import 'package:axon_launcher/app_state.dart';
+import 'package:axon_launcher/api/io.dart';
+import 'package:axon_launcher/launcher_state.dart';
 import 'package:axon_launcher/models/account.dart';
 import 'package:axon_launcher/widgets/account_widget.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,7 @@ class AccountPage extends StatelessWidget {
 
                 if(textEditingController.text.isEmpty) return;
 
-                final path = state.currentAccount == null ? state.accountPath?.path : await getNewAccountPath(textEditingController.text);
+                final path = state.currentAccount == null ? accountFile!.path : await getNewAccountPath(textEditingController.text);
                 if(path == null) return;
 
                 var acc = Account(userName: textEditingController.text, identity: 'pending', file: File(path));

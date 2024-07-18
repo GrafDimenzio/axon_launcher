@@ -1,5 +1,6 @@
 import 'package:axon_launcher/api/account_api.dart';
-import 'package:axon_launcher/app_state.dart';
+import 'package:axon_launcher/api/io.dart';
+import 'package:axon_launcher/launcher_state.dart';
 import 'package:axon_launcher/models/account.dart';
 import 'package:axon_launcher/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
@@ -39,15 +40,15 @@ class AccountWidget extends StatelessWidget {
                     return;
                   }
                     final state = LauncherState.singleton;
-                    if(state?.accountPath == null) return;
+                    if(accountFile == null || state == null) return;
                     //Move the already existing user.json into the account directory if one exists
-                    if(state?.currentAccount != null) {
-                      final newPath = await getNewAccountPath(state!.currentAccount!.userName);
+                    if(state.currentAccount != null) {
+                      final newPath = await getNewAccountPath(state.currentAccount!.userName);
                       if(newPath == null) return;
-                      await state.currentAccount!.file.rename(newPath);
+                      await accountFile!.rename(newPath);
                     }
                     //Move the account to the root of the Axon Directory for the client to be used
-                    await account.file.rename(state!.accountPath!.path);
+                    await account.file.rename(accountFile!.path);
                     state.readAccounts();
                 },
                 icon: Icon(Icons.check)

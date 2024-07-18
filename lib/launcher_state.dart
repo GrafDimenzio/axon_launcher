@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:axon_launcher/api/account_api.dart';
+import 'package:axon_launcher/api/io.dart';
 import 'package:axon_launcher/models/account.dart';
 import 'package:axon_launcher/models/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
 class LauncherState extends ChangeNotifier {
@@ -17,13 +17,8 @@ class LauncherState extends ChangeNotifier {
   bool allowSwitch = true;
   int currentPage = 0;
 
-  Directory? axonDirectory;
-  Directory? launcherDirectory;
-  Directory? accountDirectory;
-  File? launcherSettings;
   Settings? settings;
 
-  File? accountPath;
   Account? currentAccount;
   List<Account> accounts = [];
 
@@ -40,42 +35,30 @@ class LauncherState extends ChangeNotifier {
   void _init() async {
     singleton = this;
 
-    var appData = await getApplicationSupportDirectory();
-    var axonPath = path.join(appData.parent.parent.path, 'Axon');
-    axonDirectory = Directory(axonPath);
-    launcherDirectory = Directory(path.join(axonPath, 'launcher'));
-    accountDirectory = Directory(path.join(launcherDirectory!.path,'accounts'));
-
-    launcherSettings = File(path.join(launcherDirectory!.path,'settings.json'));
-
-    if (await accountDirectory!.exists() == false) {
-      await accountDirectory!.create(recursive: true);
-    }
-
-    if(await launcherSettings!.exists() == false) {
-      var modsDir = Directory(path.join(launcherDirectory!.path,'mods'));
-      if(await modsDir.exists() == false) {
-        await modsDir.create();
-      }
+    if(await launcherSettingsFile!.exists() == false) {
+      modsDirectory = Directory(path.join(launcherDirectory!.path,'mods'));
       await saveSettings(Settings(
         devMode: false,
         ue: false,
         axonClientPath: '',
-        modsPath: modsDir.path,
+        modsPath: modsDirectory!.path,
       ), notify: false);
     }
     else {
       await readSettings(notify: false);
+      modsDirectory = Directory(settings!.modsPath);
+    }
+    if (await modsDirectory!.exists() == false) {
+      await modsDirectory!.create();
     }
 
-    accountPath = File(path.join(axonPath,'user.json'));
     await readAccounts(notify: false);
 
     notifyListeners();
   }
 
   Future<void> readAccounts({ bool notify = true }) async {
-    currentAccount = await readAccountFromFile(accountPath!);
+    currentAccount = await readAccountFromFile(accountFile!);
     accounts.clear();
     for(var fileEntity in accountDirectory!.listSync()) {
       final file = File(fileEntity.path);
@@ -92,13 +75,13 @@ class LauncherState extends ChangeNotifier {
   Future<void> saveSettings(Settings sett, { bool notify = true }) async {
     settings = sett;
     var json = jsonEncode(sett);
-    if(launcherSettings == null) return;
+    if(launcherSettingsFile == null) return;
 
-    if(await launcherSettings!.exists() == false) {
-      await launcherSettings!.create();
+    if(await launcherSettingsFile!.exists() == false) {
+      await launcherSettingsFile!.create();
     }
 
-    await launcherSettings!.writeAsString(json);
+    await launcherSettingsFile!.writeAsString(json);
 
     if(notify) {
       notifyListeners();
@@ -106,8 +89,8 @@ class LauncherState extends ChangeNotifier {
   }
 
   Future<void> readSettings({ bool notify = true }) async {
-    if(launcherSettings == null) return;
-    var fileBytes = await launcherSettings!.readAsBytes();
+    if(launcherSettingsFile == null) return;
+    var fileBytes = await launcherSettingsFile!.readAsBytes();
     var settingsJson = utf8.decode(fileBytes);
     settings = Settings.fromJson(jsonDecode(settingsJson));
     if(notify) {

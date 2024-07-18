@@ -1,9 +1,14 @@
-import 'package:axon_launcher/app_state.dart';
+import 'dart:ui';
+
+import 'package:axon_launcher/api/io.dart';
+import 'package:axon_launcher/launcher_state.dart';
 import 'package:axon_launcher/theme/theme_manager.dart';
 import 'package:axon_launcher/widgets/launcher_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
+
+const String version = '0.1.0-Alpha';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +29,7 @@ void main() async {
 
   windowManager.setResizable(false);
 
+  await checkIo();
   runApp(const MyApp());
 }
 
@@ -37,7 +43,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Axon Launcher',
         theme: getTheme(),
-        home: const LauncherPage(),
+        home: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10.0,sigmaY: 10.0),
+          child: const LauncherPage()
+        ),
       ),
     );
   }

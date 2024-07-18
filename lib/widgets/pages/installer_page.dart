@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:axon_launcher/api/client_patcher.dart';
-import 'package:axon_launcher/app_state.dart';
+import 'package:axon_launcher/launcher_state.dart';
 import 'package:axon_launcher/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

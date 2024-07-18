@@ -1,5 +1,5 @@
-import 'package:axon_launcher/app_state.dart';
-import 'package:axon_launcher/widgets/launcher_page.dart';
+import 'package:axon_launcher/launcher_state.dart';
+import 'package:axon_launcher/main.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -58,7 +58,7 @@ class Sidebar extends StatelessWidget {
                 title: Text('Serverlist'),
                 subtitle: Text('Select and join a Server'),
                 onTap: () {
-                  selectMenu(0);
+                  selectPage(0);
                 },
               ),
               CustomListTile(
@@ -67,7 +67,7 @@ class Sidebar extends StatelessWidget {
                 title: Text('Settings'),
                 subtitle: Text('Manage your Launcher and Client'),
                 onTap: () {
-                  selectMenu(1);
+                  selectPage(1);
                 },
               ),
               CustomListTile(
@@ -76,7 +76,7 @@ class Sidebar extends StatelessWidget {
                 title: Text('Account'),
                 subtitle: Text('Manage your Axon Accounts'),
                 onTap: () {
-                  selectMenu(2);
+                  selectPage(2);
                 },
               ),
               CustomListTile(
@@ -85,7 +85,7 @@ class Sidebar extends StatelessWidget {
                 title: Text('Installer'),
                 subtitle: Text('Install the SCP:SL Axon Client'),
                 onTap: () {
-                  selectMenu(3);
+                  selectPage(3);
                 },
               ),
               CustomListTile(
@@ -94,7 +94,7 @@ class Sidebar extends StatelessWidget {
                 title: Text('Tools'),
                 subtitle: Text('Various tools for developers'),
                 onTap: () {
-                  selectMenu(4);
+                  selectPage(4);
                 },
               ),
               Divider(
@@ -120,7 +120,7 @@ class Sidebar extends StatelessWidget {
               ),
               AboutListTile(
                 applicationName: 'Axon Launcher',
-                applicationVersion: '1.0.0',
+                applicationVersion: version,
                 applicationLegalese:
                     'We are not Northwood and are not affiliated with them',
                 applicationIcon: Icon(
@@ -134,11 +134,6 @@ class Sidebar extends StatelessWidget {
         ),
       );
     });
-  }
-
-  void selectMenu(int index) {
-    selectPage(index);
-    LauncherPage.scaffoldKey.currentState?.closeDrawer();
   }
 }
 

@@ -23,7 +23,6 @@ class _ServerlistPageState extends State<ServerlistPage> {
   String currentSearch = '';
 
   //DEBUG
-
   List<ServerData> serverList = List<ServerData>.empty(growable: true);
   @override
   void initState() {
@@ -40,8 +39,8 @@ class _ServerlistPageState extends State<ServerlistPage> {
         geoblocking: false,
         identifier: 'hadsjhkjahjiodfkjasokjdik',
         info: name,
-        ip: 'localhost',
-        port: 7777,
+        ip: 'main.dimenzio.me',
+        port: 25576,
         players: 0,
         maxPlayers: 20,
         pastebin: 'hgsfiduhsdfjknhsahjd',
@@ -145,6 +144,13 @@ class _ServerlistPageState extends State<ServerlistPage> {
                   ),
                 ),
               ),
+              SizedBox(width: 500,),
+              ElevatedButton(
+                onPressed: () {
+                  
+                },
+                child: Text('Refresh')
+              )
             ],
           ),
         ),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:axon_launcher/app_state.dart';
+import 'package:axon_launcher/api/io.dart';
 import 'package:axon_launcher/models/account.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:base58check/base58.dart' as base58;
@@ -35,7 +35,7 @@ Future<Account?> readAccountFromFile(File file) async {
 }
 
 Future<String?> getNewAccountPath(String userName) async {
-  final directory = LauncherState.singleton?.accountDirectory;
+  final directory = accountDirectory;
   if(directory == null) return null;
   var counter = 0;
   File? file;
