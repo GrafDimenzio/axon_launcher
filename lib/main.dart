@@ -2,7 +2,7 @@ import 'package:axon_launcher/api/io.dart';
 import 'package:axon_launcher/states/account_state.dart';
 import 'package:axon_launcher/states/settings_state.dart';
 import 'package:axon_launcher/theme/theme_manager.dart';
-import 'package:axon_launcher/widgets/launcher_page.dart';
+import 'package:axon_launcher/app.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Axon Launcher',
       theme: getTheme(),
-      home: const LauncherPage(),
+      home: const App(),
     );
   }
 }

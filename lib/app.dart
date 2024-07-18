@@ -1,16 +1,16 @@
 import 'package:axon_launcher/states/launcher_state.dart';
 import 'package:axon_launcher/widgets/custom_title_bar.dart';
-import 'package:axon_launcher/widgets/views/account_view.dart';
-import 'package:axon_launcher/widgets/views/installer_view.dart';
+import 'package:axon_launcher/views/account_view.dart';
+import 'package:axon_launcher/views/installer_view.dart';
 import 'package:axon_launcher/widgets/sidebar.dart';
-import 'package:axon_launcher/widgets/views/serverlist_view.dart';
-import 'package:axon_launcher/widgets/views/settings_view.dart';
-import 'package:axon_launcher/widgets/views/tools_view.dart';
+import 'package:axon_launcher/views/serverlist_view.dart';
+import 'package:axon_launcher/views/settings_view.dart';
+import 'package:axon_launcher/views/tools_view.dart';
 import 'package:axon_launcher/widgets/version_widget.dart';
 import 'package:flutter/material.dart';
 
-class LauncherPage extends StatelessWidget {
-  const LauncherPage({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
