@@ -19,6 +19,7 @@ class SettingsState with ChangeNotifier {
         ue: false,
         axonClientPath: '',
         modsPath: modsDirectory!.path,
+        serverList: 'https://list.axon-sl.org/serverlist',
       ));
     } else {
       await readSettings();

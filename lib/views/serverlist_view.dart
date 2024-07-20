@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:axon_launcher/models/server_data.dart';
 import 'package:axon_launcher/states/serverlist_state.dart';
+import 'package:axon_launcher/states/settings_state.dart';
 import 'package:axon_launcher/widgets/server.dart';
 import 'package:axon_launcher/widgets/serverlist_button.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ServerlistView extends StatefulWidget {
   const ServerlistView({
@@ -17,56 +20,41 @@ class ServerlistView extends StatefulWidget {
 
 class _ServerlistViewState extends State<ServerlistView> {
   int pageState = 0;
-
-  List<String> servers = <String>['Official', 'Third Party'];
-  String? selectedServer = 'Official';
+  bool isLoading = false;
+  String errorMessage = "";
 
   String currentSearch = '';
-
-  //DEBUG
   List<ServerData> serverList = List<ServerData>.empty(growable: true);
+
   @override
   void initState() {
-    List<String> words = [
-      'scp',
-      'scpsl',
-      'server',
-      'ger',
-      'german',
-      'modded',
-      'Foundation'
-    ];
-    for (var i = 0; i < 50; i++) {
-      var name = '';
-
-      for (var i = 0; i < 5; i++) {
-        name += '${words[Random().nextInt(words.length)]} ';
-      }
-
-      var alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-      var iden = '';
-      for (var i = 0; i < 20; i++) {
-        iden += '${alphabet[Random().nextInt(alphabet.length)]} ';
-      }
-
-      serverList.add(ServerData(
-        accessRestriction: false,
-        friendlyFire: true,
-        geoblocking: false,
-        identifier: iden,
-        info: name,
-        ip: 'main.dimenzio.me',
-        port: 25576,
-        players: 0,
-        maxPlayers: 20,
-        pastebin: 'hgsfiduhsdfjknhsahjd',
-        version: '13.5.0',
-        whitelist: false,
-      ));
-    }
+    _getServers();
     super.initState();
   }
-  //End Debug
+
+  Future<void> _getServers() async {
+    setState(() {
+      isLoading = true;
+      serverList.clear();
+      errorMessage = "";
+    });
+    final settings = SettingsState.singleton.settings;
+    if(settings == null) return;
+
+    final response = await http.get(Uri.parse(settings.serverList));
+    if(response.statusCode != 200) {
+      setState(() {
+        errorMessage = response.reasonPhrase ?? '';
+      });
+      return;
+    }
+
+    final List json = jsonDecode(response.body);
+    setState(() {
+      isLoading = false;
+      serverList = json.map((e) => ServerData.fromJson(e)).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,30 +129,6 @@ class _ServerlistViewState extends State<ServerlistView> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 40, top: 20),
-          child: Row(
-            children: [
-              DropdownButton(
-                dropdownColor: theme.colorScheme.tertiary,
-                value: selectedServer,
-                onChanged: (value) {
-                  setState(() {
-                    if (servers.contains(value)) {
-                      selectedServer = value;
-                    }
-                  });
-                },
-                items: servers.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-        ),
-        Padding(
           padding: const EdgeInsets.only(left: 40, bottom: 10),
           child: Row(
             children: [
@@ -182,19 +146,27 @@ class _ServerlistViewState extends State<ServerlistView> {
               SizedBox(
                 width: 500,
               ),
-              ElevatedButton(onPressed: () {}, child: Text('Refresh'))
+              ElevatedButton(
+                onPressed: () {
+                  _getServers();
+                },
+                child: Text('Refresh')
+              )
             ],
           ),
         ),
         Expanded(
           child: SizedBox(
             width: 820,
-            child: ListView.builder(
+            child: errorMessage.isNotEmpty ? Center(child: Text(errorMessage)) :
+            (isLoading ? 
+            Center(child: CircularProgressIndicator(color: theme.colorScheme.onSurface,)) :
+            ListView.builder(
               itemCount: list.length,
               itemBuilder: (context, index) {
                 return ServerWidget(serverData: list[index]);
               },
-            ),
+            )),
           ),
         )
       ],

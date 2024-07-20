@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:axon_launcher/models/mod_info.dart';
+
 class ServerData {
   const ServerData({
     required this.version,
@@ -12,23 +16,28 @@ class ServerData {
     required this.ip,
     required this.port,
     required this.identifier,
+    required this.playerList,
+    required this.mods,
   });
 
-  final String version; //y
-  final String info;    //y
-  final String pastebin;//d -
+  final String version;
+  final String info;
+  final String pastebin;
 
-  final bool geoblocking;//y -
-  final bool whitelist;//y -
-  final bool accessRestriction;//y -
+  final bool geoblocking;
+  final bool whitelist;
+  final bool accessRestriction;
 
-  final bool friendlyFire;//y
-  final int players;//y
-  final int maxPlayers;//y
+  final bool friendlyFire;
+  final int players;
+  final int maxPlayers;
+  final List<String> playerList;
 
-  final String ip;//d -
-  final int port;//d -
-  final String identifier;//d -
+  final List<ModInfo> mods;
+
+  final String ip;
+  final int port;
+  final String identifier;
 
   String getServerUnique() {
     return '$identifier-$ip-$port';
@@ -36,35 +45,49 @@ class ServerData {
   
   Map<String, dynamic> toJson() {
     return {
-      'Version': version,
-      'Info': info,
-      'Pastebin': pastebin,
-      'Geoblocking': geoblocking,
-      'Whitelist': whitelist,
-      'AccessRestriction': accessRestriction,
-      'FriendlyFire': friendlyFire,
-      'Players': players,
-      'MaxPlayers': maxPlayers,
-      'Ip': ip,
-      'Port': port,
-      'Identifier': identifier,
+      'version': version,
+      'info': info,
+      'pastebin': pastebin,
+
+      'geoblocking': geoblocking,
+      'whitelist': whitelist,
+      'accessRestriction': accessRestriction,
+
+      'friendlyFire': friendlyFire,
+      'players': players,
+      'maxPlayers': maxPlayers,
+      'playerList': playerList,
+
+      'mods': mods,
+
+      'ip': ip,
+      'port': port,
+      'identifier': identifier,
     };
   }
 
   factory ServerData.fromJson(Map<String, dynamic> json) {
+    List<dynamic> playerList = json['playerList'];
+    List<dynamic> modList = json['mods'];
     return ServerData(
-      version: json['Version'],
-      info: json['Info'],
-      pastebin: json['Pastebin'],
-      geoblocking: json['Geoblocking'],
-      whitelist: json['Whitelist'],
-      accessRestriction: json['AccessRestriction'],
-      friendlyFire: json['FriendlyFire'],
-      players: json['Players'],
-      maxPlayers: json['MaxPlayers'],
-      ip: json['Ip'],
-      port: json['Port'],
-      identifier: json['Identifier'],
+      version: json['version'],
+      info: utf8.decode(base64Decode(json['info'].toString())),
+      pastebin: json['pastebin'],
+
+      geoblocking: json['geoblocking'],
+      whitelist: json['whitelist'],
+      accessRestriction: json['accessRestriction'],
+
+      friendlyFire: json['friendlyFire'],
+      players: json['players'],
+      maxPlayers: json['maxPlayers'],
+      playerList: playerList.map((e) => e.toString(),).toList(),
+
+      mods: modList.map((e) => ModInfo.fromJson(e),).toList(),
+
+      ip: json['ip'],
+      port: json['port'],
+      identifier: json['identifier'],
     );
   }
 }

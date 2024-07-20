@@ -103,7 +103,6 @@ class _InstallerViewState extends State<InstallerView> {
   Widget build(BuildContext context) {
     var state = LauncherState.singleton;
     final theme = Theme.of(context);
-    //final sytle = widget.theme.textTheme.titleMedium!.copyWith(color: widget.theme.colorScheme.onSurface);
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,

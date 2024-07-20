@@ -61,6 +61,29 @@ class SettingsView extends StatelessWidget {
                   SnackBar(content: Text('Updated mods path to: $value')));
             },
           ),
+          //Serverlist
+          SizedBox(
+            width: 800,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: Text('Serverlist'),
+            ),
+          ),
+          TextFormField(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText:
+                    'The serverlist that should be used',
+                constraints: BoxConstraints(maxWidth: 800)),
+            initialValue: state.settings?.serverList,
+            onFieldSubmitted: (value) {
+              if (state.settings == null) return;
+              state.settings!.serverList = value;
+              state.updateSettings();
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Updated serverlist to: $value')));
+            },
+          ),
           //DevMode Checkbox
           SizedBox(
             width: 835,

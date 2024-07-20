@@ -3,20 +3,23 @@ class Settings {
     required this.devMode,
     required this.ue,
     required this.axonClientPath,
-    required this.modsPath
+    required this.modsPath,
+    required this.serverList,
   });
 
   bool devMode = false;
   bool ue = false;
   String axonClientPath = '';
   String modsPath = '';
+  String serverList = '';
 
   Map<String, dynamic> toJson() {
     return {
       'devMode': devMode,
       'ue': ue,
       'axonClientPath': axonClientPath,
-      'modsPath': modsPath
+      'modsPath': modsPath,
+      'serverList': serverList,
     };
   }
 
@@ -25,7 +28,8 @@ class Settings {
       devMode: json['devMode'],
       ue: json['ue'],
       axonClientPath: json['axonClientPath'],
-      modsPath: json['modsPath']
+      modsPath: json['modsPath'],
+      serverList: json['serverList'],
     );
   }
 }
