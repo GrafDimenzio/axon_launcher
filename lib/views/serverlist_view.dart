@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:axon_launcher/models/server_data.dart';
 import 'package:axon_launcher/states/serverlist_state.dart';

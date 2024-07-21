@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:axon_launcher/api/steam.dart';
 import 'package:axon_launcher/states/settings_state.dart';
 import 'package:path/path.dart' as path;
 import 'package:axon_launcher/api/client_patcher.dart';
@@ -45,9 +46,18 @@ class _InstallerViewState extends State<InstallerView> {
   }
 
   void startClientInstallation(LauncherState state) {
-    if (scpExe == null ||
-        scpExe?.endsWith('SCPSL.exe') == false &&
-            File(scpExe!).existsSync() == false) {
+    if(scpExe == null) {
+      setState(() {
+        lastLog = 'You need to select a real SCPSL.exe';
+      });
+      return;
+    }
+
+    if(!scpExe!.endsWith('SCPSL.exe')) {
+      scpExe = path.join(scpExe!,'SCPSL.exe');
+    }
+
+    if(!File(scpExe!).existsSync()) {
       setState(() {
         lastLog = 'You need to select a real SCPSL.exe';
       });
@@ -97,6 +107,7 @@ class _InstallerViewState extends State<InstallerView> {
   void initState() {
     super.initState();
     getVersions();
+    scpExe = getSlPath();
   }
 
   @override

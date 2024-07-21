@@ -18,10 +18,13 @@ void launchClient({String? ip}) async {
     arguments.add('--melonloader.hideconsole');
   }
 
-  await Process.start(
+  var process = await Process.start(
     exe,
     arguments,
     workingDirectory: SettingsState.singleton.settings!.axonClientPath,
-    mode: ProcessStartMode.detached,
+    mode: ProcessStartMode.inheritStdio,
   );
+
+  var exit = await process.exitCode;
+  print('EXITCODE: $exit');
 }

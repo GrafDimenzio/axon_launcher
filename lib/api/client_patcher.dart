@@ -30,14 +30,22 @@ Future<bool> patchClient(String? vanilla, String? directory, String? version, Fu
     success = await _patchFile('https://raw.githubusercontent.com/AxonSL/SLClientPatches/main/$version/global-metadata.patches', File(path.joinAll([directory,'SCPSL_Data','il2cpp_data','Metadata','global-metadata.dat'])), log);
     if(success == false) return false;
     
-    //Download mods
+    //Download Melonloader
     log('Download Melonloader');
-    var melonPath = path.join(directory,'ml.zip');
-    success = await _downloadFile('https://github.com/LavaGang/MelonLoader/releases/download/v0.6.2/MelonLoader.x64.zip', melonPath, log);
-    if(success == false) return false;
-    await _unzip(melonPath, log);
-    await File(melonPath).delete();
+    final url = Uri.parse('https://raw.githubusercontent.com/AxonSL/Axon/master/Axon.Client/melonloader-version.txt');
+    final melonVersionResponse = await http.get(url);
+    if (melonVersionResponse.statusCode == 200) {
+      var melonPath = path.join(directory, 'ml.zip');
+      success = await _downloadFile(
+          'https://github.com/LavaGang/MelonLoader/releases/download/${melonVersionResponse.body}/MelonLoader.x64.zip',
+          melonPath,
+          log);
+      if (success == false) return false;
+      await _unzip(melonPath, log);
+      await File(melonPath).delete();
+    }
 
+    //Download Axon
     log('Download Axon Client');
     var axonZipPath = path.join(directory,'Axon.Client.zip');
     success = await _downloadFile('https://github.com/AxonSL/Axon/releases/latest/download/Axon.Client.zip', axonZipPath, log);

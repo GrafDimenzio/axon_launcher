@@ -140,10 +140,10 @@ packages:
     dependency: transitive
     description:
       name: js
-      sha256: c1b2e9b5ea78c45e1a0788d29606ba27dc5f71f019f32ca5140f61ef071838cf
+      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.1"
+    version: "0.6.7"
   leak_tracker:
     dependency: transitive
     description:
@@ -413,6 +413,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  vdf:
+    dependency: "direct main"
+    description:
+      name: vdf
+      sha256: "3c3de152e0914b1842aa4c7e552e4b5f3234dfec0bcd0c1c672420339887390a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   vector_math:
     dependency: transitive
     description:
@@ -441,10 +449,18 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: a79dbe579cb51ecd6d30b17e0cae4e0ea15e2c0e66f69ad4198f22a6789e94f4
+      sha256: a6f0236dbda0f63aa9a25ad1ff9a9d8a4eaaa5012da0dc59d21afdb1dc361ca4
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.1"
+    version: "3.1.4"
+  win32_registry:
+    dependency: "direct main"
+    description:
+      name: win32_registry
+      sha256: "66e78552f17501aced68fe77425b13156998f1bd3d58f1cd8cd0af2dbe4520e3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   window_manager:
     dependency: "direct main"
     description:
