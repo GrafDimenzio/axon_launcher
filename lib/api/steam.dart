@@ -22,7 +22,7 @@ String? getSteamPath() {
   }
   catch(ex) {
     try{
-      key = Registry.openPath(RegistryHive.localMachine,path: _steam64Bit);
+      key = Registry.openPath(RegistryHive.localMachine,path: _steam32Bit);
     }
     catch(ex) {
       return null;

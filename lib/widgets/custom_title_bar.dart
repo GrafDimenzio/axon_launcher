@@ -1,3 +1,4 @@
+import 'package:axon_launcher/states/launcher_state.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -54,7 +55,13 @@ class _CloseButtonState extends State<CloseButton> {
       },
       child: GestureDetector(
         onTap: () {
-          windowManager.close();
+          if(LauncherState.singleton.allowSwitch) {
+            windowManager.close();
+          }
+          else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('You can\'t close the application right now')));
+          }
         },
         child: Container(
           width: buttonSizes,
@@ -124,7 +131,7 @@ class Title extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: 10.0,
         ),
-        child: Text(''),
+        child: Row(children: [Image.asset('assets/axon_blue.ico')]),
       ),
     );
   }
